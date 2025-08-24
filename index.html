@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en" x-data="app()" :class="{ dark: isDark, light: !isDark }" class="scroll-smooth antialiased">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JDSS Youth – Jaya Durga Seva Samithi (Premium)</title>
+  <meta name="description" content="JDSS Youth – Jaya Durga Seva Samithi (Kodimail, Jagityal). Since 1997, celebrating Durga Mata & Ganesh Chaturthi with devotion, unity, and service." />
+  <link rel="icon" href="favicon.ico" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Bubblegum+Sans&family=Poppins:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind = {};
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Baloo 2"','Bubblegum Sans','Poppins','ui-sans-serif','system-ui'],
+            body: ['Inter','Poppins','ui-sans-serif','system-ui']
+          },
+          boxShadow: {
+            neu: '10px 10px 24px rgba(0,0,0,.25), -10px -10px 24px rgba(255,255,255,.06)'
+          },
+          keyframes: {
+            floating: { '0%,100%':{ transform:'translateY(0)' }, '50%':{ transform:'translateY(-6px)' }},
+            blob: {
+              '0%':{ transform:'translate(0,0) scale(1)' },
+              '33%':{ transform:'translate(20px,-30px) scale(1.05)' },
+              '66%':{ transform:'translate(-10px,20px) scale(0.98)' },
+              '100%':{ transform:'translate(0,0) scale(1)' }
+            }
+          },
+          animation: {
+            floaty: 'floating 5s ease-in-out infinite',
+            blob: 'blob 12s ease-in-out infinite'
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com" defer></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.0/cdn.min.js" defer></script>
+
+  <style>
+    :root{
+      --bg-minimal: linear-gradient(180deg,#ffffff,#f6f7fb);
+      --bg-dark: radial-gradient(1200px 600px at 10% 10%, #10142a 0%, transparent 60%),
+                 radial-gradient(900px 500px at 90% 10%, #24103a 0%, transparent 60%),
+                 linear-gradient(135deg,#070a16,#0a0d1f 55%, #0b0b0b);
+      --bg-glass: radial-gradient(1200px 600px at 0% 0%, #1f2937 0%, transparent 60%),
+                  radial-gradient(900px 500px at 100% 0%, #111827 0%, transparent 60%),
+                  linear-gradient(135deg,#0b1020,#0b1020 55%, #05070d);
+      --bg-emoji: linear-gradient(135deg,#ff8ec6 0%,#8a84ff 50%,#00e0ff 100%);
+      --bg-split: linear-gradient(90deg, #0b1020 0%, #0b1020 50%, #0d0d0d 50%, #0d0d0d 100%);
+      --bg-story: linear-gradient(180deg,#0a0f1e 0%,#0c1530 50%,#0a0f1e 100%);
+      --glass-dark: rgba(255,255,255,.08);
+      --glass-light: rgba(255,255,255,.55);
+      --glass-brd-dark: rgba(255,255,255,.22);
+      --glass-brd-light: rgba(0,0,0,.08);
+      --neon: 0 0 6px rgba(0,255,255,.6), 0 0 18px rgba(0,255,255,.45), 0 0 36px rgba(0,255,255,.25);
+      --team-gap: 6px;
+      --team-name-size: 9.8px;
+      --team-line: 1.05;
+      --team-card-min-h: 46px;
+    }
+
+    html,body { height:100%; }
+    body{
+      font-family: Inter, Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #eaeff7;
+      background: var(--bg-dark);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .light body{ color:#0e1325; }
+
+    /* Presets (backgrounds) */
+    .preset-minimal body{ background: var(--bg-minimal); color:#0e1325; }
+    .preset-glass body{ background: var(--bg-glass); }
+    .preset-emoji body{ background: var(--bg-emoji); }
+    .preset-split body{ background: var(--bg-split); }
+    .preset-story body{ background: var(--bg-story); }
+
+    /* Utilities */
+    .glass{ background: var(--glass-dark); backdrop-filter: blur(10px); border:1px solid var(--glass-brd-dark); border-radius:14px; }
+    .light .glass, .preset-minimal .glass{ background: var(--glass-light); border-color: var(--glass-brd-light); }
+    .neu{ background: rgba(255,255,255,0.06); border-radius:16px; box-shadow: var(--box-shadow, 10px 10px 22px rgba(0,0,0,.25)); }
+    .bubble{ font-family: "Baloo 2","Bubblegum Sans","Poppins",system-ui; letter-spacing:.6px; font-weight:800; }
+    .bubble-caps{ font-family: "Baloo 2","Bubblegum Sans","Poppins",system-ui; text-transform:uppercase; letter-spacing:.6px; font-weight:800; }
+    .parallax{ background-image:url('jdss-hero.jpg'); background-size:cover;background-position:center;background-attachment:fixed; }
+
+    /* Neon heading style for Cinematic preset */
+    .neon{ text-shadow: var(--neon); }
+
+    /* Glow blobs */
+    .blob{ filter: blur(40px); opacity:.55; }
+
+    /* 3D tilt */
+    .tilt{ transform-style: preserve-3d; perspective: 1000px; }
+    .tilt > *{ transform: translateZ(40px); }
+
+    /* Flip card */
+    .flip{ position: relative; transform-style: preserve-3d; transition: transform .5s; }
+    .flip:hover{ transform: rotateY(180deg); }
+    .flip .face{ backface-visibility: hidden; }
+    .flip .back{ transform: rotateY(180deg); position:absolute; inset:0; }
+
+    /* Timeline */
+    .timeline{ position:relative; }
+    .timeline::before{ content:""; position:absolute; left:50%; top:0; bottom:0; width:3px; background:linear-gradient(#fff,transparent,#fff); opacity:.2; }
+    .step{ position:relative; width:100%; }
+    .step .dot{ position:absolute; left:50%; transform:translate(-50%,-50%); top:.5rem; width:12px; height:12px; border-radius:999px; background:#ffd166; box-shadow:0 0 0 6px rgba(255,209,102,.15); }
+
+    /* Split Hero */
+    .split-hero{ display:grid; grid-template-columns: 1fr; }
+    @media(min-width: 900px){ .split-hero{ grid-template-columns: 1fr 1.3fr; min-height: 70vh; } }
+
+    /* Typing */
+    .typing{ border-right: 2px solid currentColor; white-space: nowrap; overflow:hidden; }
+
+    /* Ganesh SVG gentle float */
+    .ganesh-wrap { transform-origin: center bottom; animation: ganeshFloat 5s ease-in-out infinite; }
+    @keyframes ganeshFloat { 0% { transform: translateY(0) } 50% { transform: translateY(-6px) } 100% { transform: translateY(0) } }
+    .ganesh-trunk { transform-origin: 58% 65%; animation: trunkSway 3.6s ease-in-out infinite; }
+    @keyframes trunkSway { 0% { transform: rotate(0deg) } 50% { transform: rotate(3deg) } 100% { transform: rotate(0deg) } }
+
+    /* Team grid */
+    .team-grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--team-gap); }
+    .team-card{ min-width:0; min-height: var(--team-card-min-h); padding:6px 8px; display:flex; align-items:center; gap:8px; border-radius:14px; transition: transform .12s ease, box-shadow .12s ease; }
+    .team-card:hover{ transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,.18); }
+    .serial{ min-width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:9px; border-radius:999px; background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); }
+    .avatar{ width:26px; height:26px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:10px; color:#0b1220; border-radius:999px; background-image: linear-gradient(135deg,#ffdd6d,#ff9d2e); box-shadow: 0 6px 12px rgba(0,0,0,.2); }
+    .member-name{ flex:1; min-width:0; font-weight:800; font-size: var(--team-name-size); line-height: var(--team-line); overflow-wrap:anywhere; word-break:break-word; }
+    @media (max-width:380px){ :root{ --team-name-size:9.1px; --team-card-min-h:44px; --team-gap:5px; } .serial{ min-width:20px; height:20px; font-size:8px; } .avatar{ width:24px; height:24px; font-size:9px; } }
+    @media (min-width:640px){ :root{ --team-name-size:11.5px; --team-card-min-h:50px; } }
+
+    /* Flower rain */
+    #flowerLayer{ position: fixed; inset: 0; z-index: 40; pointer-events: none; overflow: hidden; }
+    .flower{ position:absolute; top:-10vh; left:0; font-size: var(--size, 20px); opacity:0; filter: drop-shadow(0 6px 4px rgba(0,0,0,.15)); will-change: transform, opacity; animation: flower-drift var(--dur,12s) linear var(--delay,0s) infinite; }
+    @keyframes flower-drift {
+      0%  { transform: translate3d(var(--startX,0vw), -10vh, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: .95; }
+      50% { transform: translate3d(calc(var(--startX,0vw) + var(--driftX,0vw)), 50vh, 0) rotate(180deg); }
+      100% { transform: translate3d(calc(var(--startX,0vw) + calc(var(--driftX,0vw) * 2)), 110vh, 0) rotate(360deg); opacity: .95; }
+    }
+    @media (prefers-reduced-motion: reduce){ #flowerLayer{ display:none; } }
+
+    /* Background video overlay */
+    #bgVideoWrap{ position:fixed; inset:0; z-index:-1; overflow:hidden; opacity:0; transition: opacity .5s ease; }
+    #bgVideoWrap.on{ opacity:1; }
+    #bgVideo{ position:absolute; min-width:100%; min-height:100%; top:50%; left:50%; transform:translate(-50%,-50%); filter: brightness(.55) contrast(1.1); }
+
+    /* Emoji divider */
+    .emoji-divider{ text-align:center; font-size:1.9rem; margin:1.8rem 0; }
+
+    /* Helper for x-cloak */
+    [x-cloak]{ display:none!important; }
+  </style>
+</head>
+
+<body :class="'preset-'+preset">
+  <a href="#home" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 bg-black/70 text-white px-3 py-2 rounded-md">Skip to content</a>
+
+  <div id="bgVideoWrap" :class="videoActive ? 'on' : ''" aria-hidden="true">
+    <video id="bgVideo" x-ref="bgVideo" muted loop playsinline preload="none" poster="jdss-hero.jpg"></video>
+  </div>
+
+  <div class="pointer-events-none fixed -z-[1] inset-0" aria-hidden="true">
+    <div class="absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-fuchsia-400/30 blob animate-blob"></div>
+    <div class="absolute top-40 -right-24 w-[380px] h-[380px] rounded-full bg-indigo-400/30 blob animate-blob" style="animation-delay:2s"></div>
+    <div class="absolute bottom-10 left-10 w-[300px] h-[300px] rounded-full bg-cyan-400/30 blob animate-blob" style="animation-delay:4s"></div>
+  </div>
+
+  <canvas id="stars" class="fixed inset-0 -z-[1]" aria-hidden="true" x-show="preset==='interactive'" x-cloak></canvas>
+
+  <header class="fixed top-0 left-0 right-0 z-[60] bg-black/30 dark:bg-black/40 backdrop-blur border-b border-white/10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="#home" class="flex items-center gap-3 group" aria-label="JDSS Youth home">
+          <span class="relative inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-300 to-orange-500 text-black font-extrabold shadow-neu group-hover:animate-floaty">ॐ</span>
+          <span class="font-display font-extrabold tracking-wide text-base sm:text-lg">JDSS Youth • JDSS KA MURTHI</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-3">
+          <label for="stylePreset" class="text-xs opacity-80">Style</label>
+          <select id="stylePreset" class="text-sm rounded-xl px-3 py-1.5 bg-white/10 border border-white/20" x-model="preset" @change="applyPreset">
+            <option value="cinematic">Dark Cinematic</option>
+            <option value="minimal">Minimal & Clean</option>
+            <option value="interactive">3D / Interactive</option>
+            <option value="timeline">Timeline Focus</option>
+            <option value="story">One‑Page Story</option>
+            <option value="business">Business Card</option>
+            <option value="split">Split Screen</option>
+            <option value="emoji">Typing + Emoji</option>
+            <option value="glass">Glassmorphism</option>
+            <option value="video">Full‑Screen Video</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button @click="toggleTheme" class="neu p-2 rounded-2xl transition" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
+            <span x-show="isDark">🌞</span><span x-show="!isDark">🌙</span>
+          </button>
+          <button @click="toggleFlowers" class="neu p-2 rounded-2xl" :aria-pressed="flowersOn" :aria-label="flowersOn ? 'Disable flower rain' : 'Enable flower rain'">🌸</button>
+          <button class="md:hidden neu p-2 rounded-2xl" @click="open = !open" aria-label="Menu" :aria-expanded="open">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:hidden" x-show="open" x-cloak x-transition.opacity @keydown.escape.window="open=false">
+      <div class="fixed inset-0 bg-black/40" @click="open=false" aria-hidden="true"></div>
+      <nav class="relative px-6 pb-4 pt-2 space-y-2 bg-black/60 backdrop-blur border-t border-white/10">
+        <a @click="open=false" class="block glass px-4 py-2" href="#about">About</a>
+        <a @click="open=false" class="block glass px-4 py-2" href="#organization">Organization</a>
+        <a @click="open=false" class="block glass px-4 py-2" href="#journey">Journey</a>
+        <a @click="open=false" class="block glass px-4 py-2" href="#celebrations">Celebrations</a>
+        <a @click="open=false" class="block glass px-4 py-2" href="#mission">Mission</a>
+        <a @click="open=false" class="block glass px-4 py-2" href="#profiles">Profiles</a>
+        <a @click="open=false" class="block glass px-4 py-2" href="#ganesh">Ganesh Ji</a>
+        <a @click="open=false" class="block glass px-4 py-2" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="flowerLayer" aria-hidden="true"></div>
+
+  <section id="home" class="pt-28 sm:pt-32">
+    <div x-show="preset==='business'" x-cloak class="mx-auto max-w-xl px-6" data-aos="zoom-in">
+      <div class="glass p-6 rounded-2xl text-center">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-300 to-orange-500 text-black grid place-items-center text-2xl font-black">ॐ</div>
+        <h1 class="bubble text-4xl mt-3">JDSS Youth</h1>
+        <p class="opacity-90">Kodimail • Jagityal • Since 1997</p>
+        <div class="mt-4 flex items-center justify-center gap-2 flex-wrap">
+          <a href="#contact" class="neu px-4 py-2 rounded-xl font-semibold">📞 Contact</a>
+          <a href="#organization" class="glass px-4 py-2 rounded-xl font-semibold">📋 Team</a>
+          <a href="#journey" class="glass px-4 py-2 rounded-xl font-semibold">🕰 Journey</a>
+          <a href="brochure.pdf" class="glass px-4 py-2 rounded-xl font-semibold" download>⬇ Brochure</a>
+        </div>
+      </div>
+    </div>
+
+    <div x-show="preset==='split'" x-cloak class="mx-auto max-w-6xl px-6 py-10 sm:py-16">
+      <div class="split-hero gap-6 items-center">
+        <div class="glass p-8 rounded-3xl" data-aos="fade-right">
+          <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-amber-300 to-orange-500 text-black grid place-items-center text-3xl font-black shadow-neu">ॐ</div>
+          <h1 class="bubble text-5xl mt-4">JDSS Youth</h1>
+          <p class="mt-2 opacity-90">Jaya Durga Seva Samithi • Kodimail</p>
+          <p class="text-sm opacity-80">Celebrating Durga Mata & Ganesh Chaturthi with devotion and unity.</p>
+          <div class="mt-6 flex gap-3 flex-wrap">
+            <a href="#celebrations" class="neu px-5 py-3 rounded-2xl font-semibold">🎉 Celebrations</a>
+            <a href="#contact" class="glass px-5 py-3 rounded-2xl font-semibold">💬 Contact</a>
+          </div>
+        </div>
+        <div class="tilt" data-aos="fade-left">
+          <div class="parallax rounded-3xl min-h-[320px] md:min-h-[460px] shadow-neu"></div>
+        </div>
+      </div>
+    </div>
+
+    <div x-show="preset!=='split' && preset!=='business'" class="parallax">
+      <div class="mx-auto max-w-6xl px-6 py-24 md:py-32 text-center">
+        <div class="glass p-8 md:p-12 rounded-2xl" data-aos="fade-up">
+          <h1 class="bubble text-5xl md:text-7xl font-extrabold mb-2" :class="preset==='cinematic' ? 'neon' : ''">ᴊᴅꜱꜱ ʏᴏᴜᴛʜ 🦅</h1>
+          <p class="mt-2 text-lg md:text-xl">🙏 <span class="font-semibold">Jaya Durga Seva Samithi</span> 🙏 <br> Main Group | Kodimail, Jagityal District</p>
+          <p class="mt-2">📍 Kodimail, Jagityal District – 505501</p>
+          <template x-if="preset==='emoji'">
+            <p class="mt-3 text-xl typing" x-ref="typing"></p>
+          </template>
+          <div class="mt-7 flex items-center justify-center gap-3 flex-wrap">
+            <a href="#organization" class="neu px-5 py-3 rounded-2xl font-semibold">📋 View Team</a>
+            <a href="#profiles" class="glass px-5 py-3 rounded-2xl font-semibold">👥 Add Members</a>
+            <template x-if="preset==='video'">
+              <button @click="toggleVideo" class="glass px-5 py-3 rounded-2xl font-semibold" :aria-pressed="videoActive">🎬 <span x-text="videoActive ? 'Pause Video' : 'Play Video'"></span></button>
+            </template>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 text-center">
+          <div class="glass p-4 rounded-2xl tilt"><div class="text-2xl font-bold">28+ 🗓</div><div class="text-xs opacity-80">Years of Tradition</div></div>
+          <div class="glass p-4 rounded-2xl tilt"><div class="text-2xl font-bold">1000+ 🙌</div><div class="text-xs opacity-80">Devotees Joined</div></div>
+          <div class="glass p-4 rounded-2xl tilt"><div class="text-2xl font-bold">2 🎆</div><div class="text-xs opacity-80">Major Festivals</div></div>
+          <div class="glass p-4 rounded-2xl tilt"><div class="text-2xl font-bold">∞ ✨</div><div class="text-xs opacity-80">Blessings</div></div>
+        </div>
+
+        <div class="emoji-divider">🌟🌟🌟</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="py-16 md:py-20">
+    <div class="mx-auto max-w-5xl px-6" data-aos="fade-right">
+      <h2 class="text-4xl font-extrabold text-center font-display mb-2">👋 Welcome to JDSS Youth</h2>
+      <p class="text-center italic">Since 1997 | Tradition Continues till 2025 & Beyond</p>
+      <p class="text-center mb-10">📍 Kodimail, Jagityal District – 505501</p>
+
+      <div class="prose prose-invert max-w-none glass p-6 md:p-8 rounded-2xl">
+        <p><strong>JDSS Youth (Jaya Durga Seva Samithi)</strong> is a symbol of devotion, culture, and youth power. With the blessings of Maa Durga and Lord Ganesh, we bring people together in joy, devotion, and brotherhood.</p>
+
+        <h3>🙏 Our Celebrations</h3>
+        <ul>
+          <li>🕉 <strong>Durga Mata</strong> – Devotional puja, cultural programs, rituals, music, and traditional activities.</li>
+          <li>🐘 <strong>Ganesh Chaturthi</strong> – From installation to Visarjan with unmatched energy and joy.</li>
+          <li>🎶 <strong>Grand Finale</strong> – DJ, Band, Bharath bringing the community together.</li>
+        </ul>
+
+        <h3>🌸 Our Mission</h3>
+        <ul>
+          <li>Preserve traditions for the next generation.</li>
+          <li>Unite youth in culture and devotion.</li>
+          <li>Spread happiness, positivity, and service.</li>
+        </ul>
+      </div>
+
+      <div class="emoji-divider">💐💐💐</div>
+    </div>
+  </section>
+
+  <section id="journey" class="py-16 md:py-24 bg-white/5 dark:bg-white/5">
+    <div class="mx-auto max-w-6xl px-6" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-10 font-display">🕰 Our Journey</h2>
+      <div class="timeline">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="step">
+            <div class="dot"></div>
+            <div class="glass p-6 rounded-2xl md:mr-12" data-aos="fade-right">
+              <h3 class="text-xl font-bold">1997 — Foundation</h3>
+              <p>JDSS Youth begins in Kodimail to celebrate Maa Durga and Lord Ganesha with unity.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="dot"></div>
+            <div class="glass p-6 rounded-2xl md:ml-12" data-aos="fade-left">
+              <h3 class="text-xl font-bold">2005 — Growth</h3>
+              <p>Community expands, more volunteers join, cultural programs flourish.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="dot"></div>
+            <div class="glass p-6 rounded-2xl md:mr-12" data-aos="fade-right">
+              <h3 class="text-xl font-bold">2015 — Initiatives</h3>
+              <p>Structured organization, youth mentorship, and larger festival arrangements.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="dot"></div>
+            <div class="glass p-6 rounded-2xl md:ml-12" data-aos="fade-left">
+              <h3 class="text-xl font-bold">2025 — Today & Beyond</h3>
+              <p>Digitally connected, transparent team structure, and inclusive celebrations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="emoji-divider">🧭🧭🧭</div>
+    </div>
+  </section>
+
+  <section id="organization" class="py-12 md:py-16">
+    <div class="mx-auto max-w-6xl px-6" data-aos="zoom-in">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4 font-display">🏛 JDSS Organization</h2>
+      <p class="text-center opacity-90 mb-6">Unified team list — <strong>two columns</strong> with compact glass cards. Names are tiny bubble caps and fully visible on phones.</p>
+
+      <div class="neu p-4 md:p-6 rounded-2xl mb-6">
+        <h3 class="text-xl md:text-2xl font-extrabold mb-4 text-center">📋 Team</h3>
+        <ul class="team-grid" role="list" aria-label="Team members">
+          <li class="glass team-card" aria-label="1 MANIKYAM SRINIVAS"><span class="serial">1</span><span class="avatar">MS</span><span class="member-name bubble-caps">MANIKYAM SRINIVAS</span></li>
+          <li class="glass team-card" aria-label="2 VOOTKURI MAHESH"><span class="serial">2</span><span class="avatar">VM</span><span class="member-name bubble-caps">VOOTKURI MAHESH</span></li>
+
+          <li class="glass team-card" aria-label="3 AITLA RAMAESH"><span class="serial">3</span><span class="avatar">AR</span><span class="member-name bubble-caps">AITLA RAMAESH</span></li>
+          <li class="glass team-card" aria-label="4 AITLA MAHESH"><span class="serial">4</span><span class="avatar">AM</span><span class="member-name bubble-caps">AITLA MAHESH</span></li>
+
+          <li class="glass team-card" aria-label="5 AITLA GANESH"><span class="serial">5</span><span class="avatar">AG</span><span class="member-name bubble-caps">AITLA GANESH</span></li>
+          <li class="glass team-card" aria-label="6 ALDI GANESH"><span class="serial">6</span><span class="avatar">AG</span><span class="member-name bubble-caps">ALDI GANESH</span></li>
+
+          <li class="glass team-card" aria-label="7 BINGI GANESH"><span class="serial">7</span><span class="avatar">BG</span><span class="member-name bubble-caps">BINGI GANESH</span></li>
+          <li class="glass team-card" aria-label="8 KAITHA MADHU"><span class="serial">8</span><span class="avatar">KM</span><span class="member-name bubble-caps">KAITHA MADHU</span></li>
+
+          <li class="glass team-card" aria-label="9 KAITHA MAHII"><span class="serial">9</span><span class="avatar">KM</span><span class="member-name bubble-caps">KAITHA MAHII</span></li>
+          <li class="glass team-card" aria-label="10 ALDI PRASHANTH"><span class="serial">10</span><span class="avatar">AP</span><span class="member-name bubble-caps">ALDI PRASHANTH</span></li>
+
+          <li class="glass team-card" aria-label="11 KAITHA RAMESH"><span class="serial">11</span><span class="avatar">KR</span><span class="member-name bubble-caps">KAITHA RAMESH</span></li>
+          <li class="glass team-card" aria-label="12 BATTINI MALLESH"><span class="serial">12</span><span class="avatar">BM</span><span class="member-name bubble-caps">BATTINI MALLESH</span></li>
+
+          <li class="glass team-card" aria-label="13 DHOPATHI MUNI"><span class="serial">13</span><span class="avatar">DM</span><span class="member-name bubble-caps">DHOPATHI MUNI</span></li>
+          <li class="glass team-card" aria-label="14 RACHAKONDA VENKI"><span class="serial">14</span><span class="avatar">RV</span><span class="member-name">RACHAKONDA VENKI</span></li>
+
+          <li class="glass team-card" aria-label="15 DHOPATHI SAI"><span class="serial">15</span><span class="avatar">DS</span><span class="member-name bubble-caps">DHOPATHI SAI</span></li>
+          <li class="glass team-card" aria-label="16 VADLAKONDA ANJI"><span class="serial">16</span><span class="avatar">VA</span><span class="member-name bubble-caps">VADLAKONDA ANJI</span></li>
+
+          <li class="glass team-card" aria-label="17 KASARAPU PRANAY"><span class="serial">17</span><span class="avatar">KP</span><span class="member-name bubble-caps">KASARAPU PRANAY</span></li>
+          <li class="glass team-card" aria-label="18 PANNATI MOURYA"><span class="serial">18</span><span class="avatar">PM</span><span class="member-name bubble-caps">PANNATI MOURYA</span></li>
+
+          <li class="glass team-card" aria-label="19 KASARAPU VINAY"><span class="serial">19</span><span class="avatar">KV</span><span class="member-name bubble-caps">KASARAPU VINAY</span></li>
+          <li class="glass team-card" aria-label="20 GAJULA SHIVA"><span class="serial">20</span><span class="avatar">GS</span><span class="member-name bubble-caps">GAJULA SHIVA</span></li>
+
+          <li class="glass team-card" aria-label="21 GAJULA AMAR"><span class="serial">21</span><span class="avatar">GA</span><span class="member-name bubble-caps">GAJULA AMAR</span></li>
+          <li class="glass team-card" aria-label="22 GAJULA CHARAN"><span class="serial">22</span><span class="avatar">GC</span><span class="member-name bubble-caps">GAJULA CHARAN</span></li>
+
+          <li class="glass team-card" aria-label="23 NATHE GRISHU"><span class="serial">23</span><span class="avatar">NG</span><span class="member-name bubble-caps">NATHE GRISHU</span></li>
+          <li class="glass team-card" aria-label="24 VAD JASWANTH"><span class="serial">24</span><span class="avatar">VJ</span><span class="member-name bubble-caps">VAD JASWANTH</span></li>
+
+          <li class="glass team-card" aria-label="25 RACHAK MALVIK"><span class="serial">25</span><span class="avatar">RM</span><span class="member-name bubble-caps">RACHAK MALVIK</span></li>
+          <li class="glass team-card" aria-label="26 GANGIS GANESH"><span class="serial">26</span><span class="avatar">GG</span><span class="member-name bubble-caps">GANGIS GANESH</span></li>
+
+          <li class="glass team-card" aria-label="27 NALLALAA ANIRUTH"><span class="serial">27</span><span class="avatar">NA</span><span class="member-name bubble-caps">NALLALAA ANIRUTH</span></li>
+          <li class="glass team-card" aria-label="28 NALLALA ABHI"><span class="serial">28</span><span class="avatar">NA</span><span class="member-name bubble-caps">NALLALA ABHI</span></li>
+
+          <li class="glass team-card" aria-label="29 KASARAPU SANVITH"><span class="serial">29</span><span class="avatar">KS</span><span class="member-name bubble-caps">KASARAPU SANVITH</span></li>
+          <li class="glass team-card" aria-label="30 PANNATI GANESH"><span class="serial">30</span><span class="avatar">PG</span><span class="member-name bubble-caps">PANNATI GANESH</span></li>
+
+          <li class="glass team-card" aria-label="31 KASARAPU SAITH"><span class="serial">31</span><span class="avatar">KS</span><span class="member-name bubble-caps">KASARAPU SAITH</span></li>
+          <li class="glass team-card" aria-label="32 VADLAKONDA ARYA"><span class="serial">32</span><span class="avatar">VA</span><span class="member-name bubble-caps">VADLAKONDA ARYA</span></li>
+          <li class="glass team-card" aria-label="33 VADLAKONDA VINAY"><span class="serial">33</span><span class="avatar">VV</span><span class="member-name bubble-caps">VADLAKONDA VINAY</span></li>
+        </ul>
+      </div>
+
+      <p class="text-center mt-3 opacity-90">IT IS SINCE 1997 TO 2025 TO BE CONTINUED</p>
+      <div class="emoji-divider">🎗🎗🎗</div>
+    </div>
+  </section>
+
+  <section id="celebrations" class="py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-6" data-aos="fade-left">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-10 font-display">🥳 Our Celebrations</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="relative group h-52 [perspective:1000px]">
+          <div class="flip w-full h-full">
+            <div class="face glass rounded-3xl p-6 w-full h-full grid"><div>
+              <h3 class="text-2xl font-bold mb-2">🕉 Durga Mata</h3>
+              <p>Grand Puja with devotion, cultural programs, rituals, and music.</p>
+            </div></div>
+            <div class="back glass rounded-3xl p-6 w-full h-full grid"><div>
+              <p class="opacity-90">Traditional decor • Aarti • Bhajans • Cultural performances.</p>
+            </div></div>
+          </div>
+        </div>
+        <div class="relative group h-52 [perspective:1000px]">
+          <div class="flip w-full h-full">
+            <div class="face glass rounded-3xl p-6 w-full h-full grid"><div>
+              <h3 class="text-2xl font-bold mb-2">🐘 Ganesh Chaturthi</h3>
+              <p>Vibrant celebrations from installation to Visarjan.</p>
+            </div></div>
+            <div class="back glass rounded-3xl p-6 w-full h-full grid"><div>
+              <p class="opacity-90">Daily puja • Modaks • Cultural nights • Community seva.</p>
+            </div></div>
+          </div>
+        </div>
+        <div class="relative group h-52 [perspective:1000px]">
+          <div class="flip w-full h-full">
+            <div class="face glass rounded-3xl p-6 w-full h-full grid"><div>
+              <h3 class="text-2xl font-bold mb-2">🎶 Grand Finale Day</h3>
+              <p>DJ, Band, Bharath procession bringing the entire community together.</p>
+            </div></div>
+            <div class="back glass rounded-3xl p-6 w-full h-full grid"><div>
+              <p class="opacity-90">Immersion procession • Music • Dance • Fireworks.</p>
+            </div></div>
+          </div>
+        </div>
+      </div>
+      <div class="emoji-divider">🎈🎈🎈</div>
+    </div>
+  </section>
+
+  <section id="story" class="py-16 md:py-20 bg-white/5" x-show="preset==='story'" x-cloak>
+    <div class="mx-auto max-w-5xl px-6">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-8 font-display">📖 Our Story</h2>
+      <div class="space-y-6">
+        <div class="glass p-6 rounded-2xl" data-aos="fade-up">In a small lane of Kodimail, a few friends gathered in 1997 and lit the first diya together. That light grew…</div>
+        <div class="glass p-6 rounded-2xl" data-aos="fade-up" data-aos-delay="100">Each year brought new faces, louder bhajans, and stronger bonds. Elders guided, youth organized.</div>
+        <div class="glass p-6 rounded-2xl" data-aos="fade-up" data-aos-delay="200">Today, JDSS Youth is a family — celebrating, serving, and smiling together.</div>
+      </div>
+      <div class="emoji-divider">✨✨✨</div>
+    </div>
+  </section>
+
+  <section id="mission" class="py-16 md:py-20">
+    <div class="mx-auto max-w-4xl px-6" data-aos="fade-up">
+      <div class="neu p-8 md:p-10 rounded-3xl">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-6 font-display">🌸 Our Mission</h2>
+        <ul class="space-y-3 text-lg">
+          <li>🌸 Preserve traditions and pass them to the next generation.</li>
+          <li>🌸 Unite youth in the spirit of culture and devotion.</li>
+          <li>🌸 Organize events that spread happiness, positivity, and service.</li>
+        </ul>
+      </div>
+      <div class="emoji-divider">🌺🌺🌺</div>
+    </div>
+  </section>
+
+  <section id="profiles" class="py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-6" data-aos="zoom-in-up">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-6 font-display">👥 Upload Two Profiles – JDSS Youth Kodimail</h2>
+      <p class="text-center text-sm opacity-80 mb-8">Add <strong>two member profiles</strong> (photo + details). Saved to your browser. Export/Import JSON to move.</p>
+
+      <form id="profileForm" class="grid lg:grid-cols-2 gap-6" aria-label="Member profile form" autocomplete="off">
+        <div class="neu p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">Profile 1</h3>
+          <label class="block text-sm mb-1" for="name1">Full Name</label>
+          <input id="name1" name="name1" class="w-full mb-3 rounded-2xl px-4 py-2 text-black" placeholder="Enter name" required>
+          <label class="block text-sm mb-1" for="role1">Role / Title</label>
+          <input id="role1" name="role1" class="w-full mb-3 rounded-2xl px-4 py-2 text-black" placeholder="Leader / Volunteer">
+          <label class="block text-sm mb-1" for="bio1">Short Bio</label>
+          <textarea id="bio1" name="bio1" class="w-full mb-3 rounded-2xl px-4 py-2 text-black" rows="3" placeholder="About this member"></textarea>
+          <label class="block text-sm mb-1" for="photo1">Photo</label>
+          <input id="photo1" name="photo1" type="file" accept="image/*" class="w-full mb-4" />
+          <button type="button" class="save1 w-full rounded-2xl px-4 py-2 glass font-semibold">💾 Save Profile 1</button>
+        </div>
+
+        <div class="neu p-6 rounded-3xl">
+          <h3 class="text-xl font-bold mb-4">Profile 2</h3>
+          <label class="block text-sm mb-1" for="name2">Full Name</label>
+          <input id="name2" name="name2" class="w-full mb-3 rounded-2xl px-4 py-2 text-black" placeholder="Enter name" required>
+          <label class="block text-sm mb-1" for="role2">Role / Title</label>
+          <input id="role2" name="role2" class="w-full mb-3 rounded-2xl px-4 py-2 text-black" placeholder="Leader / Volunteer">
+          <label class="block text-sm mb-1" for="bio2">Short Bio</label>
+          <textarea id="bio2" name="bio2" class="w-full mb-3 rounded-2xl px-4 py-2 text-black" rows="3" placeholder="About this member"></textarea>
+          <label class="block text-sm mb-1" for="photo2">Photo</label>
+          <input id="photo2" name="photo2" type="file" accept="image/*" class="w-full mb-4" />
+          <button type="button" class="save2 w-full rounded-2xl px-4 py-2 glass font-semibold">💾 Save Profile 2</button>
+        </div>
+      </form>
+
+      <div class="mt-6 flex flex-wrap items-center gap-3 justify-center">
+        <button id="exportProfiles" class="rounded-2xl px-4 py-2 neu">📤 Export Profiles (JSON)</button>
+        <label for="importProfiles" class="neu rounded-2xl px-4 py-2 cursor-pointer">📥 Import Profiles (JSON)
+          <input id="importProfiles" type="file" accept="application/json" class="hidden" />
+        </label>
+        <button id="resetProfiles" class="rounded-2xl px-4 py-2 neu">🗑 Clear Saved Profiles</button>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 mt-8" id="profileCards" aria-live="polite"></div>
+      <div class="emoji-divider">👤👤👤</div>
+    </div>
+  </section>
+
+  <section id="ganesh" class="py-16 md:py-20 bg-gradient-to-b from-amber-900/30 to-amber-900/10">
+    <div class="mx-auto max-w-6xl px-6" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-6 font-display">🙏 Lord Ganesh Blessings 🙏</h2>
+      <p class="text-center max-w-3xl mx-auto mb-8">Om Gam Ganapataye Namah – The remover of obstacles and bestower of wisdom.</p>
+
+      <figure class="max-w-3xl mx-auto rounded-3xl overflow-hidden glass p-6 ganesh-wrap" data-aos="zoom-in" role="img" aria-labelledby="ganeshTitle ganeshDesc">
+        <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ganeshTitle ganeshDesc" class="w-full h-auto">
+          <title id="ganeshTitle">Lord Ganesha — stylized vector illustration</title>
+          <desc id="ganeshDesc">Stylized vector illustration of Lord Ganesha's head with crown, ears, and trunk in warm tones, decorative lotus and halo behind.</desc>
+
+          <defs>
+            <radialGradient id="gSkin" cx="40%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#FFD9A6"/>
+              <stop offset="60%" stop-color="#FF9E4A"/>
+              <stop offset="100%" stop-color="#E86A3A"/>
+            </radialGradient>
+            <linearGradient id="gEar" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#FFB89A"/>
+              <stop offset="100%" stop-color="#FF7A4A"/>
+            </linearGradient>
+            <linearGradient id="gGold" x1="0" x2="1">
+              <stop offset="0%" stop-color="#FFD35B"/>
+              <stop offset="60%" stop-color="#FFB84D"/>
+              <stop offset="100%" stop-color="#E6A33A"/>
+            </linearGradient>
+            <radialGradient id="gHalo" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-opacity="0.9" stop-color="#FFF0C2"/>
+              <stop offset="100%" stop-opacity="0.12" stop-color="#FFB86D"/>
+            </radialGradient>
+            <filter id="drop" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="8" stdDeviation="18" flood-color="#000" flood-opacity="0.25"/>
+            </filter>
+          </defs>
+
+          <circle cx="400" cy="220" r="210" fill="url(#gHalo)" />
+          <path d="M170 220 C 110 140, 120 360, 250 320 C 200 260, 200 230, 170 220 Z" fill="url(#gEar)" stroke="#E16A3A" stroke-width="2" opacity="0.98"/>
+          <path d="M630 220 C 690 140, 680 360, 550 320 C 600 260, 600 230, 630 220 Z" fill="url(#gEar)" stroke="#E16A3A" stroke-width="2" opacity="0.98"/>
+          <ellipse cx="400" cy="240" rx="200" ry="170" fill="url(#gSkin)" stroke="#D96533" stroke-width="3" filter="url(#drop)"/>
+
+          <g transform="translate(400,95) scale(1)">
+            <path d="M-120,60 L0,-90 L120,60 L0,30 Z" fill="url(#gGold)" stroke="#C17B2B" stroke-width="3"/>
+            <circle cx="-40" cy="-10" r="8" fill="#FFFFFF" opacity="0.9"/>
+            <circle cx="40" cy="-10" r="8" fill="#FFFFFF" opacity="0.9"/>
+            <rect x="-28" y="-4" width="56" height="12" rx="6" fill="#FFD380" />
+          </g>
+
+          <path d="M400 200 Q 396 188 400 176 Q 404 188 400 200 Z" fill="#B92F2F" />
+          <path d="M350 230 q18 -12 36 0" stroke="#2A2A2A" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M450 230 q18 -12 36 0" stroke="#2A2A2A" stroke-width="6" stroke-linecap="round" fill="none"/>
+
+          <g class="ganesh-trunk">
+            <path d="M430 260 C 470 300, 510 350, 490 390 C 470 430, 420 450, 400 460 C 380 470, 360 468, 350 460 C 340 452, 348 436, 360 430 C 380 420, 420 420, 440 410" fill="none" stroke="#6A2E2B" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <ellipse cx="440" cy="408" rx="8" ry="6" fill="#D94B33" />
+          </g>
+
+          <path d="M360 285 C 350 300, 340 315, 345 327" stroke="#FFF9F1" stroke-width="8" stroke-linecap="round" fill="none"/>
+          <path d="M440 285 C 450 300, 460 315, 455 327" stroke="#FFF9F1" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+          <g transform="translate(320,330)">
+            <path d="M0 0 Q80 70 160 0" fill="none" stroke="#FFCF7A" stroke-width="10" stroke-linecap="round" />
+            <circle cx="80" cy="36" r="10" fill="#FF9E4A" stroke="#C86A2A" stroke-width="2" />
+          </g>
+
+          <g transform="translate(400,520) scale(0.6)">
+            <path d="M0 -40 C 30 -80, 80 -80, 120 -40 C 80 -20, 40 -10, 0 -40 Z" fill="#FFD6E0" />
+            <path d="M0 -40 C -30 -80, -80 -80, -120 -40 C -80 -20, -40 -10, 0 -40 Z" fill="#FFD6E0" />
+            <ellipse cx="0" cy="-20" rx="120" ry="22" fill="#FFD6E0" opacity="0.9"/>
+          </g>
+
+          <g fill="#FFD9A6">
+            <circle cx="320" cy="200" r="3" />
+            <circle cx="480" cy="200" r="3" />
+            <circle cx="400" cy="280" r="3" />
+          </g>
+        </svg>
+        <figcaption class="mt-4 text-center text-sm font-medium">Vector illustration: Lord Ganesha — warm tones, decorative crown and lotus</figcaption>
+      </figure>
+
+      <div class="glass p-6 md:p-8 rounded-3xl mt-8 max-w-3xl mx-auto text-center">
+        <h3 class="text-xl font-bold mb-2">Sacred Ganesh Mantra</h3>
+        <div class="text-2xl md:text-3xl font-display leading-relaxed">
+          ॐ गं गणपतये नमः<br>Om Gam Ganapataye Namah
+        </div>
+        <p class="mt-3 italic">"Salutations to Lord Ganesha, the remover of obstacles"</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 mt-8">
+        <div class="glass p-6 rounded-3xl">
+          <h4 class="font-bold mb-2">🔎 Symbolism</h4>
+          <p>Elephant head represents wisdom, large ears to listen to prayers, small mouth to speak less.</p>
+        </div>
+        <div class="glass p-6 rounded-3xl">
+          <h4 class="font-bold mb-2">🎉 Celebration</h4>
+          <p>10-day festival marking Ganesh's birth, ending with immersion (Visarjan) in water.</p>
+        </div>
+        <div class="glass p-6 rounded-3xl">
+          <h4 class="font-bold mb-2">💝 JDSS Tradition</h4>
+          <p>Celebrated with devotion since 1997, bringing community together in joy.</p>
+        </div>
+      </div>
+
+      <div class="emoji-divider">🐘🐘🐘</div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-16 md:py-20">
+    <div class="mx-auto max-w-4xl px-6" data-aos="fade-up">
+      <div class="glass p-8 rounded-3xl text-center">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 font-display">📞 Contact Us</h2>
+        <p class="text-lg mb-2">📱 Phone Numbers:
+          <a class="underline hover:no-underline" href="tel:+917794044674"><strong>77940 44674</strong></a> /
+          <a class="underline hover:no-underline" href="tel:+917207455422"><strong>72074 55422</strong></a>
+        </p>
+        <p class="text-lg mb-2">📸 Instagram: <a class="underline hover:no-underline" href="https://instagram.com/jdss_ka_murthi" target="_blank" rel="noopener"><strong>@jdss_ka_murthi</strong></a></p>
+        <p class="text-lg mb-2">📧 Email: <a class="underline hover:no-underline" href="mailto:pranaykasarapu@gmail.com"><strong>pranaykasarapu@gmail.com</strong></a></p>
+        <div class="mt-4 flex gap-2 justify-center flex-wrap">
+          <a href="#organization" class="neu px-5 py-3 rounded-2xl font-semibold">📋 Team</a>
+          <a href="#journey" class="glass px-5 py-3 rounded-2xl font-semibold">🕰 Journey</a>
+        </div>
+        <p class="mt-4">💖 JDSS Youth – Jaya Durga Seva Samithi</p>
+        <p>✨ Celebrating Faith. Inspiring Youth. Uniting People.</p>
+        <p class="mt-2">🔥 From 1997 to 2025 and beyond – our devotion and celebrations never stop!</p>
+      </div>
+      <div class="emoji-divider">☎☎☎</div>
+    </div>
+  </section>
+
+  <footer class="py-6 text-center text-sm border-t border-white/10">
+    <p>© JDSS Youth – Jaya Durga Seva Samithi • Kodimail, Jagityal District – 505501 🎊</p>
+  </footer>
+
+  <a href="https://wa.me/917794044674" class="fixed bottom-5 right-5 rounded-full neu p-3 animate-pulse" aria-label="WhatsApp">
+    <span class="text-2xl">💬</span>
+  </a>
+
+  <script>
+    // Alpine app with preset logic
+    function app(){
+      return {
+        isDark: JSON.parse(localStorage.getItem('jdss_theme_dark') ?? 'true'),
+        open:false,
+        // *** Alpine.js App Start ***
+        preset: localStorage.getItem('jdss_preset') ?? 'cinematic',
+        flowersOn: JSON.parse(localStorage.getItem('jdss_flowers') ?? 'false'),
+        videoActive: false,
+        videoLoaded: false,
+        videoSrc: 'jdss-bg.mp4', // place your background video file in the same folder or adjust path
+
+        // Typing effect (Emoji preset)
+        typingPhrases: [
+          '🙏 Jai Mata Di',
+          '🐘 Ganesh Chaturthi',
+          '🎶 DJ · Band · Bharat',
+          '❤️ Unity • Devotion • Service'
+        ],
+        typingTimer: null,
+
+        // Starfield (Interactive preset)
+        starfieldActive: false,
+        starAnim: null,
+        _starsCleanup: null,
+
+        // Internal timers/refs
+        flowerInterval: null,
+
+        // THEME
+        toggleTheme(){
+          this.isDark = !this.isDark;
+          localStorage.setItem('jdss_theme_dark', JSON.stringify(this.isDark));
+          document.documentElement.classList.toggle('dark', this.isDark);
+          document.documentElement.classList.toggle('light', !this.isDark);
+        },
+
+        // PRESET APPLY (called on change and on init)
+        applyPreset(){
+          localStorage.setItem('jdss_preset', this.preset);
+
+          // typing
+          if(this.preset === 'emoji') this.startTyping(); else this.stopTyping();
+
+          // starfield
+          if(this.preset === 'interactive') this.initStars(); else this.destroyStars();
+
+          // video background visibility
+          if(this.preset !== 'video') this.stopVideo();
+        },
+
+        // FLOWER RAIN
+        toggleFlowers(){
+          this.flowersOn = !this.flowersOn;
+          localStorage.setItem('jdss_flowers', JSON.stringify(this.flowersOn));
+          if(this.flowersOn) this.startFlowers(); else this.stopFlowers();
+        },
+        startFlowers(){
+          const layer = document.getElementById('flowerLayer');
+          if(!layer) return;
+          this.stopFlowers();
+          const emojis = ['🌸','💮','🌺','🌼','🌷','🪷'];
+          const make = () => {
+            const span = document.createElement('span');
+            span.className = 'flower';
+            span.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+            const startX = Math.random()*100;
+            const driftX = (Math.random()*40+10) * (Math.random()<0.5?-1:1);
+            const size = Math.random()*22 + 16; // 16–38px
+            const dur  = Math.random()*6 + 9;    // 9–15s
+            const delay= Math.random()*2;
+            span.style.setProperty('--startX', startX+'vw');
+            span.style.setProperty('--driftX', driftX+'vw');
+            span.style.setProperty('--size', size+'px');
+            span.style.setProperty('--dur',  dur+'s');
+            span.style.setProperty('--delay',delay+'s');
+            span.style.left = startX+'vw';
+            layer.appendChild(span);
+            setTimeout(()=>{ span.remove(); }, (dur+delay)*1000);
+          };
+          for(let i=0;i<12;i++) make();
+          this.flowerInterval = setInterval(make, 450);
+        },
+        stopFlowers(){
+          const layer = document.getElementById('flowerLayer');
+          if(this.flowerInterval){ clearInterval(this.flowerInterval); this.flowerInterval = null; }
+          if(layer) layer.innerHTML = '';
+        },
+
+        // VIDEO BG (Video preset toggle button)
+        toggleVideo(){
+          if(this.videoActive) this.stopVideo(); else this.ensureVideo(true);
+        },
+        ensureVideo(autoplay=false){
+          const wrap = document.getElementById('bgVideoWrap');
+          const v = this.$refs.bgVideo;
+          if(!v) return;
+          if(!this.videoLoaded){ v.src = this.videoSrc; this.videoLoaded = true; }
+          this.videoActive = true;
+          wrap?.classList.add('on');
+          v.muted = true; v.loop = true; v.playsInline = true;
+          if(autoplay){ v.play().catch(()=>{}); }
+        },
+        stopVideo(){
+          const wrap = document.getElementById('bgVideoWrap');
+          const v = this.$refs.bgVideo;
+          this.videoActive = false;
+          wrap?.classList.remove('on');
+          if(v){ v.pause(); v.currentTime = 0; }
+        },
+
+        // TYPING EFFECT
+        startTyping(){
+          const el = this.$refs.typing;
+          if(!el) return;
+          this.stopTyping();
+          const words = this.typingPhrases;
+          let i = 0, idx = 0, dir = 1; // 1=typing, -1=deleting
+          const tick = () => {
+            const w = words[i];
+            if(dir === 1){
+              el.textContent = w.slice(0, idx++);
+              if(idx <= w.length) this.typingTimer = setTimeout(tick, 60);
+              else { dir = -1; this.typingTimer = setTimeout(tick, 1200); }
+            } else {
+              el.textContent = w.slice(0, idx--);
+              if(idx >= 0) this.typingTimer = setTimeout(tick, 40);
+              else { dir = 1; i = (i+1)%words.length; idx = 0; this.typingTimer = setTimeout(tick, 300); }
+            }
+          };
+          tick();
+        },
+        stopTyping(){
+          if(this.typingTimer){ clearTimeout(this.typingTimer); this.typingTimer = null; }
+          const el = this.$refs.typing; if(el) el.textContent='';
+        },
+
+        // STARFIELD (Interactive preset)
+        initStars(){
+          if(this.starfieldActive) return;
+          const canvas = document.getElementById('stars');
+          if(!canvas) return;
+          const ctx = canvas.getContext('2d');
+          const DPR = window.devicePixelRatio || 1;
+          const resize = () => {
+            canvas.width = innerWidth * DPR;
+            canvas.height = innerHeight * DPR;
+            ctx.setTransform(1,0,0,1,0,0); // reset transform before scaling
+            ctx.scale(DPR, DPR);
+          };
+          resize();
+          const onResize = () => resize();
+          window.addEventListener('resize', onResize);
+
+          const stars = Array.from({length: 160}, () => ({
+            x: Math.random()*innerWidth,
+            y: Math.random()*innerHeight,
+            z: Math.random()*1 + 0.2,
+            r: Math.random()*1.4 + 0.4,
+            s: Math.random()*0.6 + 0.2
+          }));
+          let mx = innerWidth/2, my = innerHeight/2;
+          const onMove = e => { mx = e.clientX; my = e.clientY; };
+          window.addEventListener('mousemove', onMove);
+
+          const step = () => {
+            ctx.clearRect(0,0,innerWidth,innerHeight);
+            for(const st of stars){
+              st.x += (mx - innerWidth/2) * 0.0005 * st.z;
+              st.y += (my - innerHeight/2) * 0.0005 * st.z;
+              st.y += st.s;
+              if(st.y > innerHeight+10) st.y = -10;
+              if(st.x > innerWidth+10) st.x = -10;
+              if(st.x < -10) st.x = innerWidth+10;
+              ctx.beginPath();
+              ctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+              ctx.fillStyle = 'rgba(255,255,255,0.85)';
+              ctx.fill();
+            }
+            this.starAnim = requestAnimationFrame(step);
+          };
+
+          this.starfieldActive = true;
+          step();
+
+          this._starsCleanup = () => {
+            cancelAnimationFrame(this.starAnim);
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('resize', onResize);
+          };
+        },
+        destroyStars(){
+          if(!this.starfieldActive) return;
+          this.starfieldActive = false;
+          if(this._starsCleanup) this._starsCleanup();
+          const canvas = document.getElementById('stars');
+          if(canvas){ const ctx = canvas.getContext('2d'); ctx && ctx.clearRect(0,0,canvas.width,canvas.height); }
+        },
+
+        // PROFILES (2 local profiles with export/import)
+        loadProfiles(){
+          try{ const json = localStorage.getItem('jdss_profiles'); return json ? JSON.parse(json) : {p1:null,p2:null}; }
+          catch(e){ return {p1:null,p2:null}; }
+        },
+        saveProfiles(data){ localStorage.setItem('jdss_profiles', JSON.stringify(data)); },
+        renderProfiles(){
+          const cont = document.getElementById('profileCards');
+          if(!cont) return;
+          cont.innerHTML = '';
+          const data = this.loadProfiles();
+          const card = (p)=> p ? `\n<div class="glass p-5 rounded-2xl flex gap-4 items-center">\n  <img src="${p.photo||''}" alt="${p.name||'Profile'}" class="w-16 h-16 rounded-xl object-cover bg-white/10">\n  <div class="min-w-0">\n    <div class="font-extrabold">${p.name||''}</div>\n    <div class="text-sm opacity-80">${p.role||''}</div>\n    <div class="text-xs opacity-70 mt-1">${p.bio||''}</div>\n  </div>\n</div>` : '';
+          cont.innerHTML = card(data.p1) + card(data.p2);
+        },
+        wireProfileForm(){
+          const byId = id => document.getElementById(id);
+          const toDataURL = async (input) => {
+            if(!input || !input.files || !input.files[0]) return null;
+            const file = input.files[0];
+            return await new Promise(res=>{ const fr = new FileReader(); fr.onload = ()=>res(fr.result); fr.readAsDataURL(file); });
+          };
+          const handle = async (slot) => {
+            const data = this.loadProfiles();
+            const p = {
+              name: byId(`name${slot}`).value.trim(),
+              role: byId(`role${slot}`).value.trim(),
+              bio:  byId(`bio${slot}`).value.trim(),
+              photo: await toDataURL(byId(`photo${slot}`))
+            };
+            data[`p${slot}`] = p;
+            this.saveProfiles(data);
+            this.renderProfiles();
+            alert(`Profile ${slot} saved!`);
+          };
+          document.querySelector('button.save1')?.addEventListener('click', ()=>handle(1));
+          document.querySelector('button.save2')?.addEventListener('click', ()=>handle(2));
+
+          document.getElementById('exportProfiles')?.addEventListener('click', ()=>{
+            const data = this.loadProfiles();
+            const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href=url; a.download='jdss-profiles.json'; a.click(); URL.revokeObjectURL(url);
+          });
+          document.getElementById('importProfiles')?.addEventListener('change', async (e)=>{
+            const file = e.target.files?.[0]; if(!file) return;
+            try{ const text = await file.text(); const data = JSON.parse(text); this.saveProfiles(data); this.renderProfiles(); alert('Profiles imported!'); }
+            catch(err){ alert('Invalid JSON file.'); }
+          });
+          document.getElementById('resetProfiles')?.addEventListener('click', ()=>{
+            if(confirm('Clear saved profiles?')){ this.saveProfiles({p1:null,p2:null}); this.renderProfiles(); }
+          });
+        },
+
+        // TILT hover
+        wireTilt(){
+          const els = document.querySelectorAll('.tilt');
+          els.forEach(el=>{
+            let rect; const MAX = 12;
+            const enter = ()=>{ rect = el.getBoundingClientRect(); el.style.transition='transform .1s'; };
+            const move  = (e)=>{ if(!rect) rect = el.getBoundingClientRect(); const px=(e.clientX-rect.left)/rect.width-0.5; const py=(e.clientY-rect.top)/rect.height-0.5; el.style.transform=`rotateX(${ -py*MAX }deg) rotateY(${ px*MAX }deg) scale(1.02)`; };
+            const leave = ()=>{ el.style.transform='rotateX(0) rotateY(0) scale(1)'; };
+            el.addEventListener('mouseenter', enter);
+            el.addEventListener('mousemove',  move);
+            el.addEventListener('mouseleave', leave);
+          });
+        },
+
+        // AOS
+        initAOS(){ AOS.init({ duration: 700, once: true, offset: 80, easing: 'ease-in-out' }); },
+
+        // INIT on page ready
+        init(){
+          document.documentElement.classList.toggle('dark', this.isDark);
+          document.documentElement.classList.toggle('light', !this.isDark);
+          this.applyPreset();
+          if(this.flowersOn) this.startFlowers();
+          this.renderProfiles();
+          this.wireProfileForm();
+          this.wireTilt();
+          this.initAOS();
+        }
+      }
+    }
+
+    // Alpine bootstrap hooks
+    document.addEventListener('alpine:init', () => { /* component factory already defined */ });
+
+    // When DOM is ready, call init() on the root Alpine component
+    window.addEventListener('DOMContentLoaded', () => {
+      const root = document.querySelector('[x-data="app()"]');
+      const kick = () => { try{ root?.__x?.$data.init(); } catch(e){} };
+      if(root?.__x) kick(); else setTimeout(kick, 120);
+    });
+  </script>
+
+  <noscript>
+    <style>[x-cloak]{display:block!important}</style>
+    Please enable JavaScript to experience animations and profile features.
+  </noscript>
+</body>
+</html>
